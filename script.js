@@ -8,7 +8,79 @@ const API_URL =
 
 const STATUS_API_URL =
     "https://cjntrc536b.execute-api.ap-south-1.amazonaws.com/prod/status";
+// =====================================
+// COGNITO CONFIGURATION
+// =====================================
 
+const COGNITO_REGION = "ap-south-1";
+
+const USER_POOL_ID = "ap-south-1_FxuWpAYPw";
+
+const CLIENT_ID = "4v6icf7a4u6a5mqsm03ac11jpj";
+
+const COGNITO_DOMAIN =
+    "https://ap-south-1fxuwpaypw.auth.ap-south-1.amazoncognito.com";
+
+const REDIRECT_URI =
+    "https://main.d317uughpfyxnc.amplifyapp.com/";
+    async function handleCognitoLogin() {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+
+    if (!code) return;
+
+    try {
+        const response = await fetch(
+            `${COGNITO_DOMAIN}/oauth2/token`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: new URLSearchParams({
+                    grant_type: "authorization_code",
+                    client_id: CLIENT_ID,
+                    code: code,
+                    redirect_uri: REDIRECT_URI
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error_description || data.error || "Token exchange failed");
+        }
+
+        sessionStorage.setItem("cognito_id_token", data.id_token);
+
+        window.history.replaceState({}, document.title, REDIRECT_URI);
+
+        console.log("Cognito login successful");
+    } catch (error) {
+        console.error("Cognito login error:", error);
+    }
+}
+
+handleCognitoLogin();
+    // =====================================
+// COGNITO ACCESS TOKEN
+// =====================================
+
+function getAccessToken() {
+    const key = `CognitoIdentityServiceProvider.${CLIENT_ID}.LastAuthUser`;
+
+    const username = localStorage.getItem(key);
+
+    if (!username) {
+        return null;
+    }
+
+    const tokenKey =
+        `CognitoIdentityServiceProvider.${CLIENT_ID}.${username}.accessToken`;
+
+    return localStorage.getItem(tokenKey);
+}
 
 
 // =====================================
@@ -254,7 +326,7 @@ async function adminAction(action, tokenId = null) {
 
     try {
 
-        const response = await fetch(ADMIN_API_URL, {
+       const  response = await fetch(ADMIN_API_URL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
