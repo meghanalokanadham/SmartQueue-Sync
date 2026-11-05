@@ -1,0 +1,236 @@
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartQueue Sync | Queue Management</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">Q</div>
+            <div>
+                <h2>SmartQueue</h2>
+                <span>SYNC MANAGEMENT</span>
+            </div>
+        </div>
+
+        <nav class="navigation">
+            <p class="nav-heading">MAIN MENU</p>
+            <a href="#overview" class="nav-link active">▦ Dashboard</a>
+            <a href="#customer" class="nav-link">＋ Generate Token</a>
+            <a href="#liveQueue" class="nav-link">☷ Live Queue</a>
+            <a href="#admin" class="nav-link">⚙ Admin Panel</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="online-dot"></div>
+            <span>System Online</span>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <header class="topbar" id="overview">
+            <div>
+                <p class="welcome-text">QUEUE MANAGEMENT SYSTEM</p>
+                <h1>Dashboard Overview</h1>
+                <p class="subtitle">Manage your queue efficiently and effortlessly.</p>
+            </div>
+
+            <div class="topbar-status">
+                <span class="online-dot"></span>
+                Live System
+            </div>
+        </header>
+
+        <!-- Statistics -->
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-icon blue-icon">☷</div>
+                <p>Total Waiting</p>
+                <h2 id="totalWaiting">--</h2>
+                <span>Customers in queue</span>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon teal-icon">✓</div>
+                <p>Currently Serving</p>
+                <h2 id="currentServing">--</h2>
+                <span>Active token</span>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon purple-icon">◷</div>
+                <p>Queue Status</p>
+                <h2 class="status-label">Live</h2>
+                <span>Auto-updating system</span>
+            </div>
+
+        </section>
+
+        <!-- Customer Section -->
+        <section class="content-card" id="customer">
+
+            <div class="section-heading">
+                <div>
+                    <p class="section-label">CUSTOMER PORTAL</p>
+                    <h2>Generate Your Token</h2>
+                    <p>Enter your name to join the queue.</p>
+                </div>
+                <div class="section-icon">＋</div>
+            </div>
+
+          <div class="token-form">
+    <label for="customerName">Patient Name</label>
+    <input
+        type="text"
+        id="customerName"
+        placeholder="Enter your full name"
+    >
+
+    <label for="customerPhone">Phone Number</label>
+    <input
+        type="tel"
+        id="customerPhone"
+        placeholder="Enter 10-digit phone number"
+        maxlength="10"
+    >
+
+    <label for="customerEmail">Email Address</label>
+    <input
+        type="email"
+        id="customerEmail"
+        placeholder="Enter your email address"
+    >
+
+    <button id="generateBtn" class="primary-btn">
+        Generate Token →
+    </button>
+</div>
+
+            <div id="result" class="token-result">
+                <h3 id="tokenNumber"></h3>
+                <p id="message"></p>
+                <p id="status"></p>
+            </div>
+
+        </section>
+
+        <!-- Live Queue -->
+        <section class="content-card" id="liveQueue">
+
+            <div class="section-heading">
+                <div>
+                    <p class="section-label">REAL-TIME MONITORING</p>
+                    <h2>Live Queue Status</h2>
+                    <p>Track customers currently waiting.</p>
+                </div>
+
+                <button id="refreshBtn" class="secondary-btn">
+                    ↻ Refresh
+                </button>
+            </div>
+
+            <div class="queue-list">
+                <div class="queue-list-heading">
+                    <span>WAITING TOKENS</span>
+                    <span class="live-indicator">● LIVE</span>
+                </div>
+
+                <ul id="waitingTokens"></ul>
+            </div>
+
+        </section>
+
+<!-- WALK-IN PATIENT REGISTRATION -->
+<section class="content-card" id="walkin">
+    <div class="section-heading">
+        <div>
+            <p class="section-label">RECEPTION COUNTER</p>
+            <h2>Walk-in Patient Registration</h2>
+            <p>Register patients directly at the reception.</p>
+        </div>
+        <div class="section-icon">＋</div>
+    </div>
+
+    <div class="token-form">
+        <label for="walkinName">Patient Name</label>
+        <input
+            type="text"
+            id="walkinName"
+            placeholder="Enter patient name"
+        >
+
+        <label for="walkinPhone">Phone Number</label>
+        <input
+            type="tel"
+            id="walkinPhone"
+            placeholder="Enter 10-digit phone number"
+            maxlength="10"
+        >
+
+        <button id="walkinGenerateBtn" class="primary-btn">
+            Generate Walk-in Token →
+        </button>
+    </div>
+
+    <div id="walkinResult" class="token-result">
+        <h3 id="walkinTokenNumber"></h3>
+        <p id="walkinMessage"></p>
+        <p id="walkinStatus">Status: Waiting</p>
+    </div>
+</section>
+
+        <!-- Admin Dashboard -->
+        <section class="content-card admin-section" id="admin">
+
+            <div class="section-heading">
+                <div>
+                    <p class="section-label">ADMINISTRATION</p>
+                    <h2>Admin Dashboard</h2>
+                    <p>Manage customer tokens and queue operations.</p>
+                </div>
+                <div class="section-icon admin-icon">⚙</div>
+            </div>
+
+            <div class="admin-actions">
+                <button id="callNextBtn" class="primary-btn">
+                    Call Next →
+                </button>
+
+                <button id="completeBtn" class="success-btn">
+                    ✓ Complete
+                </button>
+
+                <button id="skipBtn" class="warning-btn">
+                    Skip Token
+                </button>
+            </div>
+
+            <p id="adminMessage" class="admin-message"></p>
+
+        </section>
+
+        <footer>
+            <p>SmartQueue Sync © 2026 | Powered by AWS Cloud Services</p>
+        </footer>
+
+    </main>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
